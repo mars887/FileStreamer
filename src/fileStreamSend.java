@@ -35,13 +35,16 @@ public class fileStreamSend extends Thread {
             Thread.sleep(100);
         } catch (InterruptedException e) {
         }
+
         try {
-            byte mass = new byte[65536];
+            byte[] mass = new byte[65536];
             int c = 0;
-            while((c = fileIn.read(mass)) > 0) {
-                clientOut.write(mass,c);
+            while ((c = fileIn.read(mass)) > 0) {
+                clientOut.write(mass,0,c);
                 clientOut.flush();
             }
-        } catch (IOException e) {}
+            clientOut.close();
+        } catch (IOException e) {
+        }
     }
 }
