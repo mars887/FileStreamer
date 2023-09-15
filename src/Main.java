@@ -11,7 +11,7 @@ public class Main {
         String ip = scan.nextLine();
 
         if (mode.equals("client")) {
-            new Client(1234, ip,scan);
+            new Client(1234, ip);
         } else if (mode.equals("server")) {
             new Server(1234, ip);
         }
