@@ -29,6 +29,7 @@ public class fileStreamGet extends Thread {
             client = new Socket(ip, port);
             clientIn = client.getInputStream();
             fileOut = Files.newOutputStream(path);
+            System.out.println("server connected");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -38,16 +39,20 @@ public class fileStreamGet extends Thread {
         }
         long bytesRead = 0;
         try {
-            while (bytesRead < length) {
+            while (bytesRead <= length) {
 
                 if (clientIn.available() > 0) {
-                    fileOut.write(clientIn.readAllBytes());
+                    byte[] bytes = clientIn.readAllBytes();
+                    bytesRead += bytes.length;
+                    System.out.println(bytesRead + "    " + bytes.length);
+                    fileOut.write(bytes);
                     fileOut.flush();
                 }
             }
             fileOut.close();
+            System.out.println("finished");
         } catch (IOException e) {
-
+            System.out.println("closed on error");
         }
 
 

@@ -24,10 +24,12 @@ public class fileStreamSend extends Thread {
         OutputStream clientOut = null;
         InputStream fileIn = null;
         try {
+            System.out.println("waiting client connection");
             server = new ServerSocket(port);
             client = server.accept();
             clientOut = client.getOutputStream();
             fileIn = Files.newInputStream(path);
+            System.out.println("client connected");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -37,14 +39,16 @@ public class fileStreamSend extends Thread {
         }
 
         try {
-            byte[] mass = new byte[65536];
+            byte[] mass = new byte[131072];
             int c = 0;
             while ((c = fileIn.read(mass)) > 0) {
                 clientOut.write(mass,0,c);
                 clientOut.flush();
+                Thread.sleep(10);
             }
+            Thread.sleep(1000);
             clientOut.close();
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
         }
     }
 }
